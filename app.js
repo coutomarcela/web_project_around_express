@@ -4,8 +4,6 @@ const usersRouter = require("./routes/users");
 
 const express = require("express");
 
-const fs = require("fs");
-
 const { PORT = 3000 } = process.env;
 
 const app = express();
