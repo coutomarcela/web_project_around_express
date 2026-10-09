@@ -1,38 +1,28 @@
 const router = require("express").Router();
 
-const fs = require("fs");
+const {
+  getUsers,
+  getUserById,
+  newUser,
+  editProfile,
+  editAvatar,
+  likeCard,
+  dislikeCard,
+} = require("../controllers/users");
 
-const path = require("path");
+//rota all users
+router.get("", getUsers);
 
-const usersPath = path.join(__dirname, "../data/users.json");
+//rota user by id
+router.get("/:userId", getUserById);
 
-//rota users
-router.get("", (req, res) => {
-  fs.readFile(usersPath, (err, data) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).send({ message: "Ocorreu um erro no servidor" });
-    }
-    const users = JSON.parse(data.toString("utf-8"));
-    res.send(users);
-  });
-});
+//rota new user
+router.post("", newUser);
 
-//rota id
-router.get("/:id", (req, res) => {
-  fs.readFile(usersPath, "utf-8", (err, data) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).send({ message: "Ocorreu um erro no servidor" });
-    }
-    const users = JSON.parse(data.toString("utf-8"));
-    const user = users.find((user) => user._id === req.params.id);
-    if (!user) {
-      res.status(404).send({ message: "ID do usuário não encontrado" });
-      return;
-    }
-    res.send(user);
-  });
-});
+//rota atualizar perfil
+router.patch("/me", editProfile);
+
+//rota atualizar avatar
+router.patch("/me/avatar", editAvatar);
 
 module.exports = router;

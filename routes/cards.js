@@ -1,22 +1,26 @@
 //importação do roteador do express
 const router = require("express").Router();
 
-const fs = require("fs");
+//importação das funções do controlador
+const {
+  getCards,
+  newCard,
+  deleteCard,
+  likeCard,
+  dislikeCard,
+} = require("../controllers/cards");
 
-const path = require("path");
+//rota all cards
+router.get("/", getCards);
 
-const cardsPath = path.join(__dirname, "../data/cards.json");
+//rota new card
+router.post("/", newCard);
 
-//rota cards
-router.get("", (req, res) => {
-  fs.readFile(cardsPath, (err, data) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).send({ message: "Ocorreu um erro no servidor" });
-    }
-    const cards = JSON.parse(data.toString("utf-8"));
-    res.send(cards);
-  });
-});
+//rota delete card by id
+router.delete("/:cardId", deleteCard);
+
+router.put("/:cardId/likes", likeCard);
+
+router.delete("/:cardId/likes", dislikeCard);
 
 module.exports = router;
