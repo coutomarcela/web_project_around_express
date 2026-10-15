@@ -5,9 +5,7 @@ const {
   getUserById,
   newUser,
   editProfile,
-  editAvatar,
-  likeCard,
-  dislikeCard,
+  editAvatar
 } = require("../controllers/users");
 
 //rota all users
